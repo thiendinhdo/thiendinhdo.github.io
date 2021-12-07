@@ -12,7 +12,10 @@
 
 1. [Objective](#objective)
 2. [Parts Used](#parts-used)
-3. [Assembly and Pinouts](#assembly-and-pinouts)
+3. [Assembly, Pinouts, and Implimentation](#assembly-pinouts-and-implimentation)
+   1. [Bluetooth Module](#bluetooth-module\)
+   2. [Motor Module](#motor-module)
+   3. [Speaker Module](#speaker-module)
 4. [Code](#code)
 5. [Demo](#demo)
 
@@ -27,7 +30,7 @@
 - [Hobby Gearmotor - 140 RPM (Pair)](https://www.sparkfun.com/products/13302)
 - [Wheel - 65mm (Rubber Tire, Pair)](https://www.sparkfun.com/products/13259)
 - [Motor Driver - Dual TB6612FNG](https://www.sparkfun.com/products/14450)
-- [Adafruit Bluefruit LE UARD Friend - Vluetooth Low Energy (BLE)](https://www.adafruit.com/product/2479)
+- [Adafruit Bluefruit LE UART Friend - Vluetooth Low Energy (BLE)](https://www.adafruit.com/product/2479)
 - [Mono Audio Amp Breakout - TPA2005D1](https://www.sparkfun.com/)
 - [Speaker - PCB Mount](https://www.sparkfun.com/products/11089)
 - [Ultrasonic Distance Sencsor - HC-SR04](https://www.sparkfun.com/products/15569)
@@ -37,17 +40,23 @@
 - [DC Barrel Jack Adapter](https://www.sparkfun.com/products/10811)
 
 
-## Assembly and Pinouts
+## Assembly, Pinouts, and Implimentation
 
-| mbed | herro |
+#### Bluetooth Module
+
+| mbed | Bluefruit LE UART |
 | --- | ---|
+
+#### Motor Module
+
+#### Speaker Module
 
 
 
 
 ## Code 
 
-```
+```m
 #include "mbed.h"
 #include <stdio.h>
 #include "Motor.h"
