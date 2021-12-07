@@ -9,38 +9,39 @@
 
 
 ### Table of Contents
-1. [Parts Used](#parts-used)
-2. [Assembly](#assembly)
-3. [Code](#code)
-4. [Demo](#demo)
+
+1. [Objective](#objective)
+2. [Parts Used](#parts-used)
+3. [Assembly and Pinouts](#assembly-and-pinouts)
+4. [Code](#code)
+5. [Demo](#demo)
+
+
+## Objective
 
 
 ## Parts Used
 
-- (1) [mbed NXP LPC1768 Microcontroller (Cortex-M3)](https://www.sparkfun.com/products/9564)
-- (1) [Orange LED](https://www.sparkfun.com/products/533)
-- (1) [Red LED](https://www.sparkfun.com/products/9590)
-- (1) [Wall Adapter Power Supply - 5VDC 2A](https://www.sparkfun.com/products/15312)
-- (1) [DC Barrel Jack Adapter](https://www.sparkfun.com/products/10811)
-- (1) [Shadow Chassis](https://www.sparkfun.com/products/13301)
-- (2) [Hobby Gearmotor - 140 RPM](https://www.sparkfun.com/products/13302)
-- (1) [Mono Audio Amp Breakout - TPA2005D1](https://www.sparkfun.com/products/11044)
-- (1) [Ultrasonic Distance Sencsor - HC-SR04](https://www.sparkfun.com/products/15569)
-- (1) [Adafruit Bluefruit LE UARD Friend - Vluetooth Low Energy (BLE)](https://www.adafruit.com/product/2479)
-- (1) [Motor Driver - Dual TB6612FNG](https://www.sparkfun.com/products/14450)
-- (2) [Wheel - 65mm (Rubber Tire)](https://www.sparkfun.com/products/13259)
-- () []()
-- () []()
-- () []()
-- () []()
-- () []()
-- () []()
-- () []()
+- [mbed NXP LPC1768 Microcontroller (Cortex-M3)](https://www.sparkfun.com/products/9564)
+- [Shadow Chassis](https://www.sparkfun.com/products/13301)
+- [Hobby Gearmotor - 140 RPM (Pair)](https://www.sparkfun.com/products/13302)
+- [Wheel - 65mm (Rubber Tire, Pair)](https://www.sparkfun.com/products/13259)
+- [Motor Driver - Dual TB6612FNG](https://www.sparkfun.com/products/14450)
+- [Adafruit Bluefruit LE UARD Friend - Vluetooth Low Energy (BLE)](https://www.adafruit.com/product/2479)
+- [Mono Audio Amp Breakout - TPA2005D1](https://www.sparkfun.com/)
+- [Speaker - PCB Mount](https://www.sparkfun.com/products/11089)
+- [Ultrasonic Distance Sencsor - HC-SR04](https://www.sparkfun.com/products/15569)
+- [LED - Basic Oragne 5mm](https://www.sparkfun.com/products/533)
+- [LED - Basic Red 5mm](https://www.sparkfun.com/products/9590)
+- [Wall Adapter Power Supply - 5VDC 2A](https://www.sparkfun.com/products/15312)
+- [DC Barrel Jack Adapter](https://www.sparkfun.com/products/10811)
 
 
-## Assembly
+## Assembly and Pinouts
 
-| mbed |  |
+| mbed | herro |
+| --- | ---|
+
 
 
 
