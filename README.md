@@ -47,7 +47,7 @@
 
 ## Code 
 
-```m
+```
 #include "mbed.h"
 #include <stdio.h>
 #include "Motor.h"
