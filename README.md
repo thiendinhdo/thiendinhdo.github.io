@@ -8,7 +8,7 @@
 ##### Andrew Rocco, arocco3@gatech.edu
 
 
-### Table of Contents
+## Table of Contents
 
 1. [Objective](#objective)
 2. [Parts Used](#parts-used)
@@ -46,9 +46,8 @@
 
 
 ## Code 
-THIS CODE WONT ACTUALLY BE HERE
 
-```markdown
+```m
 #include "mbed.h"
 #include <stdio.h>
 #include "Motor.h"
