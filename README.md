@@ -2,10 +2,10 @@
 
 ## ECE 4180 Fall 2021 Final Project
 
-##### Thien Dinh-Do, tdinhdo28@gatech.edu
-##### George Madathany, gmadathany3@gatech.edu
-##### Dilip Paruchuri, dparuchuri6@gatech.edu
-##### Andrew Rocco, arocco3@gatech.edu
+##### Thien Dinh-Do, <tdinhdo28@gatech.edu>
+##### George Madathany, <gmadathany3@gatech.edu>
+##### Dilip Paruchuri, <dparuchuri6@gatech.edu>
+##### Andrew Rocco, <arocco3@gatech.edu>
 
 
 ## Table of Contents
@@ -56,7 +56,9 @@ Below are the important modules and their respective pinouts to the fucntionalit
 
 #### Bluetooth Module
 
-![](ble.jpg)
+<!-- ![](ble.jpg) --> 
+<!-- ![](blecontrol.png) -->
+<img src="ble.jpg" width="300"/> <img src="blecontrol.png" width="300"/>
 
 | mbed | Adafruit LE UART BLE |
 | :---: | :---: |
@@ -82,75 +84,12 @@ Serial blue(p28,p27);
 int main()
 {
     char bnum=0;
-    char bhit=0;
     while(1) {
         if (blue.getc()=='!') {
-            if (blue.getc()=='B') { //button data packet
+            if (blue.getc()=='B') { //button data
                 bnum = blue.getc(); //button number
-                bhit = blue.getc(); //1=hit, 0=release
-                if (blue.getc()==char(~('!' + 'B' + bnum + bhit))) { //checksum OK?
-                    myled = bnum - '0'; //current button number will appear on LEDs
-                    switch (bnum) {
-                        case '1': //number button 1
-                            if (bhit=='1') {
-                                //add hit code here
-                            } else {
-                                //add release code here
-                            }
-                            break;
-                        case '2': //number button 2
-                            if (bhit=='1') {
-                                //add hit code here
-                            } else {
-                                //add release code here
-                            }
-                            break;
-                        case '3': //number button 3
-                            if (bhit=='1') {
-                                //add hit code here
-                            } else {
-                                //add release code here
-                            }
-                            break;
-                        case '4': //number button 4
-                            if (bhit=='1') {
-                                //add hit code here
-                            } else {
-                                //add release code here
-                            }
-                            break;
-                        case '5': //button 5 up arrow
-                            if (bhit=='1') {
-                                //add hit code here
-                            } else {
-                                //add release code here
-                            }
-                            break;
-                        case '6': //button 6 down arrow
-                            if (bhit=='1') {
-                                //add hit code here
-                            } else {
-                                //add release code here
-                            }
-                            break;
-                        case '7': //button 7 left arrow
-                            if (bhit=='1') {
-                                //add hit code here
-                            } else {
-                                //add release code here
-                            }
-                            break;
-                        case '8': //button 8 right arrow
-                            if (bhit=='1') {
-                                //add hit code here
-                            } else {
-                                //add release code here
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                if ((bnum>='5')&&(bnum<='8')) //is a number button up, down, left, right
+                    myled[bnum-'1']=blue.getc()-'0'; //turn on/off that num LED
             }
         }
     }
@@ -159,7 +98,9 @@ int main()
 
 #### Motor Module
 
-![](hbridge.jpg)
+<!-- ![](hbridge.jpg) -->
+<!-- ![](motors.jpg) -->
+<img src="hbridge.jpg" width="300"/> <img src="motors.jpg" width="300"/>
 
 | mbed | H-Bridge Motor Driver | Motor |
 | :---: | :---: | :---: |
@@ -180,10 +121,32 @@ int main()
 | p22 | PWMB |  |
 | GND | GND |  |
 
+[Code](https://os.mbed.com/cookbook/Motor) below is useful for **two motor systems**:
+```c++
+// test code, this demonstrates working motor drivers. 
+// full reverse to full stop, dynamicaly brake and switch off.
+#include motordriver.h
+Motor A(p22, p6, p5, 1); // pwm, fwd, rev, can brake 
+Motor B(p21, p7, p8, 1); // pwm, fwd, rev, can brake
+int main() {
+    for (float s= -1.0; s < 1.0 ; s += 0.01) {
+        A.speed(s); 
+        B.speed(s); 
+        wait(0.02);
+    }
+    A.stop();
+    B.stop();
+    wait(1);
+    A.coast();
+    B.coast();
+}
+```
 
 #### Speaker Module
 
-![](classdbreakout.jpg)
+<!-- ![](classdbreakout.jpg) -->
+<!-- ![](speaker.jpg) -->
+<img src="classdbreakout.jpg" width="300"/> <img src="speaker.jpg" width="300"/> 
 
 | mbed | Class D Audio Amp TOA2005D1 | Speaker |
 | :---: | :---: | :---: |
@@ -204,7 +167,7 @@ out +	+
 out -	-	
 Any DigitalOut px(optional)	S (low for shutdown)	 -->
 
-[Code](https://os.mbed.com/users/4180_1/notebook/using-a-speaker-for-audio-output/) below is useful for speaker interrupts:
+[Code](https://os.mbed.com/users/4180_1/notebook/using-a-speaker-for-audio-output/) below is useful for **speaker interrupts**:
 ```c++
 #include "mbed.h"
 // Audio output demo for speaker
