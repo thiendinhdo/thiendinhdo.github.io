@@ -10,19 +10,27 @@
 
 ## Table of Contents
 
-1. [Introdction](#introduction)
-2. [Parts Used](#parts-used)
-3. [Assembly, Pinouts, and Implimentation](#assembly-pinouts-and-implimentation)
-   1. [Bluetooth Module](#bluetooth-module)
-   2. [Motor Module](#motor-module)
-   3. [Speaker Module](#speaker-module)
-4. [Code](#code)
-5. [Demo](#demo)
+- [Remote Controlled and Gesture Controlled  Car](#remote-controlled-and-gesture-controlled--car)
+  - [ECE 4180 Fall 2021 Final Project](#ece-4180-fall-2021-final-project)
+        - [Thien Dinh-Do, <tdinhdo28@gatech.edu>](#thien-dinh-do-tdinhdo28gatechedu)
+        - [George Madathany, <gmadathany3@gatech.edu>](#george-madathany-gmadathany3gatechedu)
+        - [Dilip Paruchuri, <dparuchuri6@gatech.edu>](#dilip-paruchuri-dparuchuri6gatechedu)
+        - [Andrew Rocco, <arocco3@gatech.edu>](#andrew-rocco-arocco3gatechedu)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Parts Used](#parts-used)
+  - [Assembly, Pinouts, and Implimentation](#assembly-pinouts-and-implimentation)
+      - [Bluetooth Module](#bluetooth-module)
+      - [Motor Module](#motor-module)
+      - [Speaker Module](#speaker-module)
+      - [Crash Detection Module](#crash-detection-module)
+  - [Code](#code)
+  - [Demo](#demo)
 
 
 ## Introduction
 
-> We intend to develop a robotic car that can be operated in two ways: **remote control** and **gesture control**. The remote control will be through an iPhone app that will be transmitting data wirelessly to the mbed on the robotic car. We will be using the control pad of the iphone app to send the following commands: `forward`, `reverse`, `right`, `left`, and `stop`. The gesture control will also be established in the same iPhone app. The iPhone app is able to take accelerometer data measurements, and we will be sending that data to the robotic car through bluetooth, and based on the change in accelerometer data, the car will move. An additional feature we will add is crash detection. The robotic car wil sound an alarm and light and LED when it gets too close to an object. An additional feature we will add is by using a raspberry pi and a raspberry pi camera, we will add OpenCV object detection as the robotic car is controlled.
+We intend to develop a robotic car that can be operated in two ways: **remote control** and **gesture control**. The remote control will be through an iPhone app that will be transmitting data wirelessly to the mbed on the robotic car. We will be using the control pad of the iphone app to send the following commands: `forward`, `reverse`, `right`, `left`, and `stop`. The gesture control will also be established in the same iPhone app. The iPhone app is able to take accelerometer data measurements, and we will be sending that data to the robotic car through bluetooth, and based on the change in accelerometer data, the car will move. An additional feature we will add is crash detection. The robotic car wil sound an alarm and light and LED when it gets too close to an object. An additional feature we will add is by using a raspberry pi and a raspberry pi camera, we will add OpenCV object detection as the robotic car is controlled.
 
 
 ## Parts Used
@@ -58,9 +66,9 @@ Below are the important modules and their respective pinouts to the fucntionalit
 
 <!-- ![](ble.jpg) --> 
 <!-- ![](blecontrol.png) -->
-<img src="ble.jpg" width="300"/> <img src="blecontrol.png" width="300"/>
+<img src="ble.jpg" height="250"/> <img src="blecontrol.png" height="250"/>
 
-| mbed | Adafruit LE UART BLE |
+| mbed LPC1768 | Adafruit LE UART BLE |
 | :---: | :---: |
 | GND | CTS |
 | p27 (Serial RX) | TXO |
@@ -88,8 +96,61 @@ int main()
         if (blue.getc()=='!') {
             if (blue.getc()=='B') { //button data
                 bnum = blue.getc(); //button number
-                if ((bnum>='5')&&(bnum<='8')) //is a number button up, down, left, right
+                if ((bnum>='1')&&(bnum<='4')) //is a number button 1...4
                     myled[bnum-'1']=blue.getc()-'0'; //turn on/off that num LED
+            }
+        }
+    }
+}
+```
+[Code](https://os.mbed.com/users/4180_1/notebook/adafruit-bluefruit-le-uart-friend---bluetooth-low-/) below is useful for **gesture control mode**:
+```c++
+#include "mbed.h"
+Serial bluemod(p28,p27);
+PwmOut left_led(LED1);
+PwmOut right_led(LED4);
+PwmOut forward_led(LED2);
+PwmOut reverse_led(LED3);
+ 
+//C union can convert 4 chars to a float - puts them in same location in memory
+//trick to pack the 4 bytes from Bluetooth serial port back into a 32-bit float
+union f_or_char {
+    float f;
+    char  c[4];
+};
+ 
+int main()
+{
+    char bchecksum=0;
+    char temp=0;
+    union f_or_char x,y,z;
+    while(1) {
+        bchecksum=0;
+        if (bluemod.getc()=='!') {
+            if (bluemod.getc()=='A') { //Accelerometer data packet
+                for (int i=0; i<4; i++) {
+                    temp = bluemod.getc();
+                    x.c[i] = temp;
+                    bchecksum = bchecksum + temp;
+                }
+                for (int i=0; i<4; i++) {
+                    temp = bluemod.getc();
+                    y.c[i] = temp;
+                    bchecksum = bchecksum + temp;
+                }
+                for (int i=0; i<4; i++) {
+                    temp = bluemod.getc();
+                    z.c[i] = temp;
+                    bchecksum = bchecksum + temp;
+                }
+                if (bluemod.getc()==char(~('!' + 'A' + bchecksum))) { //checksum OK?
+                    //printf("X = %f  Y = %f  Z = %f\n\r",x.f, y.f, z.f);
+                    right_led = left_led = forward_led = reverse_led = 0.0;
+                    if (x.f<=0.0) right_led = -x.f/10.0;//Scale to 0.0 to 1.0 for PWM so /10.0
+                    else left_led = x.f/10.0;
+                    if (y.f<=0.0) forward_led = -y.f/10.0;
+                    else reverse_led = y.f/10.0;
+                }
             }
         }
     }
@@ -100,9 +161,10 @@ int main()
 
 <!-- ![](hbridge.jpg) -->
 <!-- ![](motors.jpg) -->
-<img src="hbridge.jpg" width="300"/> <img src="motors.jpg" width="300"/>
+<!-- ![](wheels.jpg) -->
+<img src="hbridge.jpg" height="250"/> <img src="motors.jpg" height="250"/> <img src="wheels.jpg" height="250"/>
 
-| mbed | H-Bridge Motor Driver | Motor |
+| mbed LPC1768 | H-Bridge Motor Driver | Motor |
 | :---: | :---: | :---: |
 | Vu (5V) | VM |  |
 | Vout | Vcc |  |
@@ -146,9 +208,9 @@ int main() {
 
 <!-- ![](classdbreakout.jpg) -->
 <!-- ![](speaker.jpg) -->
-<img src="classdbreakout.jpg" width="300"/> <img src="speaker.jpg" width="300"/> 
+<img src="classdbreakout.jpg" height="250"/> <img src="speaker.jpg" height="250"/> 
 
-| mbed | Class D Audio Amp TOA2005D1 | Speaker |
+| mbed LPC1768 | Class D Audio Amp TOA2005D1 | Speaker |
 | :---: | :---: | :---: |
 |  | OUT+ | + |
 |  | OUT- | - |
@@ -209,8 +271,84 @@ int main()
 }
 ```
 
+#### Crash Detection Module
+
+<!-- ![](sonar.jpg) --> 
+<img src="sonar.jpg" height="250"/>
+
+| mbed LPC1768 | HC-SR04 Distance Sensor |
+| :---: | :---: |
+| Vu (5V) | Vcc |
+| p17 | TRIG |
+| p18 | ECHO |
+| GND | GND |
+
+<!-- mbed LPC1768	HC-SR04
+Vu (5V)	Vcc
+Gnd	Gnd
+p6	trig
+p7	echo -->
+
+[Code](https://os.mbed.com/users/4180_1/notebook/using-the-hc-sr04-sonar-sensor/) below is useful for **distance sensing using timers**:
+```c++
+#include "mbed.h"
+ 
+DigitalOut trigger(p6);
+DigitalOut myled(LED1); //monitor trigger
+DigitalOut myled2(LED2); //monitor echo
+DigitalIn  echo(p7);
+int distance = 0;
+int correction = 0;
+Timer sonar;
+ 
+int main()
+{
+    sonar.reset();
+    // measure actual software polling timer delays
+    // delay used later in time correction
+    // start timer
+    sonar.start();
+    // min software polling delay to read echo pin
+    while (echo==2) {};
+    myled2 = 0;
+    // stop timer
+    sonar.stop();
+    // read timer
+    correction = sonar.read_us();
+    printf("Approximate software overhead timer delay is %d uS\n\r",correction);
+ 
+    //Loop to read Sonar distance values, scale, and print
+    while(1) {
+        // trigger sonar to send a ping
+        trigger = 1;
+        myled = 1;
+        myled2 = 0;
+        sonar.reset();
+        wait_us(10.0);
+        trigger = 0;
+        myled = 0;
+        //wait for echo high
+        while (echo==0) {};
+        myled2=echo;
+        //echo high, so start timer
+        sonar.start();
+        //wait for echo low
+        while (echo==1) {};
+        //stop timer and read value
+        sonar.stop();
+        //subtract software overhead timer delay and scale to cm
+        distance = (sonar.read_us()-correction)/58.0;
+        myled2 = 0;
+        printf(" %d cm \n\r",distance);
+        //wait so that any echo(s) return before sending another ping
+        wait(0.2);
+    }
+}
+```
 
 ## Code 
+
+Below is the code used in the project, integrating the templates of the important modules listed above to the desired controls:
 
 ```c++
 #include "mbed.h"
