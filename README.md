@@ -10,17 +10,17 @@
 
 ## Table of Contents
 
-1. [Objective](#objective)
+1. [Introdction](#introduction)
 2. [Parts Used](#parts-used)
 3. [Assembly, Pinouts, and Implimentation](#assembly-pinouts-and-implimentation)
-   1. [Bluetooth Module](#bluetooth-module\)
+   1. [Bluetooth Module](#bluetooth-module)
    2. [Motor Module](#motor-module)
    3. [Speaker Module](#speaker-module)
 4. [Code](#code)
 5. [Demo](#demo)
 
 
-## Objective
+## Introduction
 
 
 ## Parts Used
@@ -44,19 +44,70 @@
 
 #### Bluetooth Module
 
-| mbed | Bluefruit LE UART |
-| --- | ---|
+| mbed | Adafruit LE UART BLE |
+| --- | --- |
+| GND | CTS |
+| p27 | TXO |
+| p28 | RXI |
+| Vu (5V) | Vin |
+| GND | GND |
+
+mbed	Adafruit BLE
+gnd	gnd
+VU(5v)	Vin (3.3-16V)
+nc	RTS
+Gnd	CTS
+p27 (Serial RX)	TXO
+p28 (Serial TX)	RXI
 
 #### Motor Module
 
+| mbed | H-Bridge Motor Driver | Motor |
+| --- | --- | --- |
+| Vu (5V) | VM |  |
+| Vout | Vcc |  |
+| GND | GND |  |
+|  | A01 | R+ |
+|  | A02 | R- |
+|  | B02 | L- |
+|  | B01 | L+ |
+| GND | GND |  |
+| p21 | PWMA |  |
+| p5 | AI2 |  |
+| p6 | AI1 |  |
+| Vout | STBY |  |
+| p7 | BI1 |  |
+| p8 | BI2 |  |
+| p22 | PWMB |  |
+| GND | GND |  |
+
+
 #### Speaker Module
 
+| mbed | Class D Audio Amp TOA2005D1 | Speaker |
+| --- | --- | --- |
+|  | OUT+ | + |
+|  | OUT- | - |
+| GND | PWR- |  |
+| Vu (5V) | PWR+ |  |
+|  | S |  |
+| p23 | IN+ |  |
+| GND | IN- |  |
+| p18 | VOL |  |
+
+mbed	TPA2005D1	Speaker
+gnd	pwr - (gnd), in -	
+Vout (3.3V) or 5V	pwr +	
+p26 (any PWM or D/A)	in +	
+out +	+
+out -	-	
+Any DigitalOut px(optional)	S (low for shutdown)	
 
 
 
 ## Code 
 
-```m
+```c++
 #include "mbed.h"
 #include <stdio.h>
 #include "Motor.h"
