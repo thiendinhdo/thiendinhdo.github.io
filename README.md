@@ -44,6 +44,8 @@
 
 #### Bluetooth Module
 
+![](ble.jpg)
+
 | mbed | Adafruit LE UART BLE |
 | --- | --- |
 | GND | CTS |
@@ -61,6 +63,8 @@ p27 (Serial RX)	TXO
 p28 (Serial TX)	RXI
 
 #### Motor Module
+
+![](hbridge.jpg)
 
 | mbed | H-Bridge Motor Driver | Motor |
 | --- | --- | --- |
@@ -83,6 +87,8 @@ p28 (Serial TX)	RXI
 
 
 #### Speaker Module
+
+![](classdbreakout.jpg)
 
 | mbed | Class D Audio Amp TOA2005D1 | Speaker |
 | --- | --- | --- |
