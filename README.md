@@ -22,7 +22,7 @@
 
 ## Introduction
 
-We intend to develop a robotic car that can be operated in two ways: **remote control** and **gesture control**. The remote control will be through an iphone app that will be transmitting data wirelessly to the mbed on the robotic car. We will be using the control pad of the iphone app to send the following commands: forward, reverse, right, left, and stop. The gesture control will also be established in the same iPhone app. The iphone app is able to take accelerometer data measurements, and we will be sending that data to the robotic car through bluetooth, and based on the change in accelerometer data, the car will move. An additional feature we will add is crash detection. The robotic car wil sound an alarm and light and LED when it gets too close to an object. An additional feature we will add is by using a raspberry pi and a raspberry pi camera, we will add OpenCV object detection as the robotic car is controlled.
+We intend to develop a robotic car that can be operated in two ways: **remote control** and **gesture control**. The remote control will be through an iPhone app that will be transmitting data wirelessly to the mbed on the robotic car. We will be using the control pad of the iphone app to send the following commands: `forward`, `reverse`, `right`, `left`, and `stop`. The gesture control will also be established in the same iPhone app. The iPhone app is able to take accelerometer data measurements, and we will be sending that data to the robotic car through bluetooth, and based on the change in accelerometer data, the car will move. An additional feature we will add is crash detection. The robotic car wil sound an alarm and light and LED when it gets too close to an object. An additional feature we will add is by using a raspberry pi and a raspberry pi camera, we will add OpenCV object detection as the robotic car is controlled.
 
 
 ## Parts Used
@@ -36,7 +36,7 @@ We intend to develop a robotic car that can be operated in two ways: **remote co
 - [Wheel - 65mm (Rubber Tire, Pair)](https://www.sparkfun.com/products/13259)
 - [Motor Driver - Dual TB6612FNG](https://www.sparkfun.com/products/14450)
   - A motor driver or Dual H-bridge is a chip that allow for a microcontroller like the mbed to control both the speed and direction of a motor. Normally, a microcontroller can not do that, but the h-bridge contains a fwd and rev signal for each motor along with a PWM signal to set the speed. More importantly this motor driver can be interfaced with two motors.
-- [Adafruit Bluefruit LE UART Friend - Vluetooth Low Energy (BLE)](https://www.adafruit.com/product/2479)
+- [Adafruit Bluefruit LE UART Friend - Bluetooth Low Energy (BLE)](https://www.adafruit.com/product/2479)
   - The bluetooth module is utilized for wireless communication and control of the RC car utilizing the Adafruit app from the app store. In this project, the app will be used for the control pad which will allow for the user to control the RC car with the standard forward, right, left, back, and stop buttons. Also, the app will be used for its accelerometer readings which will be transmitted to the mbed for the gesture control aspect of the project.
 - [Mono Audio Amp Breakout - TPA2005D1](https://www.sparkfun.com/)
   - The Class D Audio Amplifier is also an interface chip that is connected between the mbed and a speaker. The amplifier allows for a lower voltage graw as it only takes 3.3V for power. Moreover, it offers extra control over the speaker such as volume adjustment.
@@ -52,7 +52,7 @@ We intend to develop a robotic car that can be operated in two ways: **remote co
 
 ## Assembly, Pinouts, and Implimentation
 
-Below are the important modules and their respective pinouts to the fucntionality of this project:
+Below are the important modules and their respective pinouts to the fucntionality of this project. Each are followed by a template or basic implimentation in `C++` code:
 
 #### Bluetooth Module
 
@@ -61,8 +61,8 @@ Below are the important modules and their respective pinouts to the fucntionalit
 | mbed | Adafruit LE UART BLE |
 | :---: | :---: |
 | GND | CTS |
-| p27 (Serial) | TXO |
-| p28 | RXI |
+| p27 (Serial RX) | TXO |
+| p28 (Serial TX) | RXI |
 | Vu (5V) | Vin |
 | GND | GND |
 
@@ -73,6 +73,89 @@ nc	RTS
 Gnd	CTS
 p27 (Serial RX)	TXO
 p28 (Serial TX)	RXI -->
+
+[Code](https://os.mbed.com/users/4180_1/notebook/adafruit-bluefruit-le-uart-friend---bluetooth-low-/) below is useful for **remote control mode**:
+```c++
+#include "mbed.h"
+BusOut myled(LED1,LED2,LED3,LED4);
+Serial blue(p28,p27);
+int main()
+{
+    char bnum=0;
+    char bhit=0;
+    while(1) {
+        if (blue.getc()=='!') {
+            if (blue.getc()=='B') { //button data packet
+                bnum = blue.getc(); //button number
+                bhit = blue.getc(); //1=hit, 0=release
+                if (blue.getc()==char(~('!' + 'B' + bnum + bhit))) { //checksum OK?
+                    myled = bnum - '0'; //current button number will appear on LEDs
+                    switch (bnum) {
+                        case '1': //number button 1
+                            if (bhit=='1') {
+                                //add hit code here
+                            } else {
+                                //add release code here
+                            }
+                            break;
+                        case '2': //number button 2
+                            if (bhit=='1') {
+                                //add hit code here
+                            } else {
+                                //add release code here
+                            }
+                            break;
+                        case '3': //number button 3
+                            if (bhit=='1') {
+                                //add hit code here
+                            } else {
+                                //add release code here
+                            }
+                            break;
+                        case '4': //number button 4
+                            if (bhit=='1') {
+                                //add hit code here
+                            } else {
+                                //add release code here
+                            }
+                            break;
+                        case '5': //button 5 up arrow
+                            if (bhit=='1') {
+                                //add hit code here
+                            } else {
+                                //add release code here
+                            }
+                            break;
+                        case '6': //button 6 down arrow
+                            if (bhit=='1') {
+                                //add hit code here
+                            } else {
+                                //add release code here
+                            }
+                            break;
+                        case '7': //button 7 left arrow
+                            if (bhit=='1') {
+                                //add hit code here
+                            } else {
+                                //add release code here
+                            }
+                            break;
+                        case '8': //button 8 right arrow
+                            if (bhit=='1') {
+                                //add hit code here
+                            } else {
+                                //add release code here
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+    }
+}
+```
 
 #### Motor Module
 
@@ -97,6 +180,7 @@ p28 (Serial TX)	RXI -->
 | p22 | PWMB |  |
 | GND | GND |  |
 
+
 #### Speaker Module
 
 ![](classdbreakout.jpg)
@@ -119,6 +203,48 @@ p26 (any PWM or D/A)	in +
 out +	+
 out -	-	
 Any DigitalOut px(optional)	S (low for shutdown)	 -->
+
+[Code](https://os.mbed.com/users/4180_1/notebook/using-a-speaker-for-audio-output/) below is useful for speaker interrupts:
+```c++
+#include "mbed.h"
+// Audio output demo for speaker
+// generates a 500Hz sine wave on the analog output pin
+// 128 data points on one sine wave cycle are precomputed,
+// scaled, stored in an array and
+// continuously output to the Digital to Analog convertor
+ 
+AnalogOut DAC(p18);
+//global variables used by interrupt routine
+volatile int i=0;
+float Analog_out_data[128];
+ 
+// Interrupt routine
+// used to output next analog sample whenever a timer interrupt occurs
+void Sample_timer_interrupt(void)
+{
+    // send next analog sample out to D to A
+    DAC = Analog_out_data[i];
+    // increment pointer and wrap around back to 0 at 128
+    i = (i+1) & 0x07F;
+}
+ 
+int main()
+{
+    // set up a timer to be used for sample rate interrupts
+    Ticker Sample_Period;
+    // precompute 128 sample points on one sine wave cycle 
+    // used for continuous sine wave output later
+    for(int k=0; k<128; k++) {
+        Analog_out_data[k]=((1.0 + sin((float(k)/128.0*6.28318530717959)))/2.0);
+        // scale the sine wave from 0.0 to 1.0 - as needed for AnalogOut arg 
+    }
+    // turn on timer interrupts to start sine wave output
+    // sample rate is 500Hz with 128 samples per cycle on sine wave
+    Sample_Period.attach(&Sample_timer_interrupt, 1.0/(500.0*128));
+    // everything else needed is already being done by the interrupt routine
+    while(1) {}
+}
+```
 
 
 ## Code 
