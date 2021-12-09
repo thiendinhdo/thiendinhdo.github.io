@@ -2,20 +2,13 @@
 
 ## ECE 4180 Fall 2021 Final Project
 
-##### Thien Dinh-Do, <tdinhdo28@gatech.edu>
-##### George Madathany, <gmadathany3@gatech.edu>
-##### Dilip Paruchuri, <dparuchuri6@gatech.edu>
 ##### Andrew Rocco, <arocco3@gatech.edu>
+##### Dilip Paruchuri, <dparuchuri6@gatech.edu>
+##### George Madathany, <gmadathany3@gatech.edu>
+##### Thien Dinh-Do, <tdinhdo28@gatech.edu>
 
 
 ## Table of Contents
-
-- [Remote Controlled and Gesture Controlled  Car](#remote-controlled-and-gesture-controlled--car)
-  - [ECE 4180 Fall 2021 Final Project](#ece-4180-fall-2021-final-project)
-        - [Thien Dinh-Do, <tdinhdo28@gatech.edu>](#thien-dinh-do-tdinhdo28gatechedu)
-        - [George Madathany, <gmadathany3@gatech.edu>](#george-madathany-gmadathany3gatechedu)
-        - [Dilip Paruchuri, <dparuchuri6@gatech.edu>](#dilip-paruchuri-dparuchuri6gatechedu)
-        - [Andrew Rocco, <arocco3@gatech.edu>](#andrew-rocco-arocco3gatechedu)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Parts Used](#parts-used)
@@ -30,7 +23,7 @@
 
 ## Introduction
 
-We intend to develop a robotic car that can be operated in two ways: **remote control** and **gesture control**. The remote control will be through an iPhone app that will be transmitting data wirelessly to the mbed on the robotic car. We will be using the control pad of the iphone app to send the following commands: `forward`, `reverse`, `right`, `left`, and `stop`. The gesture control will also be established in the same iPhone app. The iPhone app is able to take accelerometer data measurements, and we will be sending that data to the robotic car through bluetooth, and based on the change in accelerometer data, the car will move. An additional feature we will add is crash detection. The robotic car wil sound an alarm and light and LED when it gets too close to an object. An additional feature we will add is by using a raspberry pi and a raspberry pi camera, we will add OpenCV object detection as the robotic car is controlled.
+We intend to develop a robotic car that can be operated in two ways: **remote control** and **gesture control**. The remote control will be through an iPhone app that will be transmitting data wirelessly to the mbed on the robotic car. We will be using the control pad of the iphone app to send the following commands: `forward`, `reverse`, `right`, `left`, and `stop`. The gesture control will also be established in the same iPhone app. The iPhone app isA able to take accelerometer data measurements, and we will be sending that data to the robotic car through bluetooth, and based on the change in accelerometer data, the car will move. An additional feature we will add is crash detection. The robotic car wil sound an alarm and light and LED when it gets too close to an object. An additional feature we will add is by using a raspberry pi and a raspberry pi camera, we will add OpenCV object detection as the robotic car is controlled.
 
 
 ## Parts Used
@@ -219,7 +212,7 @@ int main() {
 |  | S |  |
 | p23 | IN+ |  |
 | GND | IN- |  |
-| p18 | VOL |  |
+<!-- | p18 | VOL |  | -->
 
 <!-- mbed	TPA2005D1	Speaker
 gnd	pwr - (gnd), in -	
@@ -292,56 +285,26 @@ p7	echo -->
 [Code](https://os.mbed.com/users/4180_1/notebook/using-the-hc-sr04-sonar-sensor/) below is useful for **distance sensing using timers**:
 ```c++
 #include "mbed.h"
+#include "ultrasonic.h"
  
-DigitalOut trigger(p6);
-DigitalOut myled(LED1); //monitor trigger
-DigitalOut myled2(LED2); //monitor echo
-DigitalIn  echo(p7);
-int distance = 0;
-int correction = 0;
-Timer sonar;
+ void dist(int distance)
+{
+    //put code here to execute when the distance has changed
+    printf("Distance %d mm\r\n", distance);
+}
+ 
+ultrasonic mu(p6, p7, .1, 1, &dist);    //Set the trigger pin to p6 and the echo pin to p7
+                                        //have updates every .1 seconds and a timeout after 1
+                                        //second, and call dist when the distance changes
  
 int main()
 {
-    sonar.reset();
-    // measure actual software polling timer delays
-    // delay used later in time correction
-    // start timer
-    sonar.start();
-    // min software polling delay to read echo pin
-    while (echo==2) {};
-    myled2 = 0;
-    // stop timer
-    sonar.stop();
-    // read timer
-    correction = sonar.read_us();
-    printf("Approximate software overhead timer delay is %d uS\n\r",correction);
- 
-    //Loop to read Sonar distance values, scale, and print
-    while(1) {
-        // trigger sonar to send a ping
-        trigger = 1;
-        myled = 1;
-        myled2 = 0;
-        sonar.reset();
-        wait_us(10.0);
-        trigger = 0;
-        myled = 0;
-        //wait for echo high
-        while (echo==0) {};
-        myled2=echo;
-        //echo high, so start timer
-        sonar.start();
-        //wait for echo low
-        while (echo==1) {};
-        //stop timer and read value
-        sonar.stop();
-        //subtract software overhead timer delay and scale to cm
-        distance = (sonar.read_us()-correction)/58.0;
-        myled2 = 0;
-        printf(" %d cm \n\r",distance);
-        //wait so that any echo(s) return before sending another ping
-        wait(0.2);
+    mu.startUpdates();//start measuring the distance
+    while(1)
+    {
+        //Do something else here
+        mu.checkDistance();     //call checkDistance() as much as possible, as this is where
+                                //the class checks if dist needs to be called.
     }
 }
 ```
