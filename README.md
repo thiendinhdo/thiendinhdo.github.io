@@ -17,6 +17,7 @@
       - [Motor Module](#motor-module)
       - [Speaker Module](#speaker-module)
       - [Crash Detection Module](#crash-detection-module)
+      - [Overall Hardware Schematic](#overall-hardware-schematic)
   - [Code](#code)
   - [Demo](#demo)
 
@@ -308,6 +309,10 @@ int main()
     }
 }
 ```
+
+#### Overall Hardware Schematic
+
+<img src="schematic.jpg" width="600"/>
 
 ## Code 
 
