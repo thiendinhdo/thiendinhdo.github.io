@@ -336,7 +336,7 @@ int main()
 
 Below are instructions on how to build this project through software:
 
-#### Main RC Car Build
+### Main RC Car Build
 
 1. Sign into the online mbed compiler and create a new blank project.
 2. [Download or copy](https://github.com/thiendinhdo/thiendinhdo.github.io/blob/main/main.cpp) the following code into the online mbed compiler.
@@ -348,11 +348,32 @@ Below are instructions on how to build this project through software:
 4. Ensure that all libraryies are imported and the build and compile the project (`Cmd-D` o r `Ctrl-D`).
 5. Connect the mbed and drag and drop the downloaded `.bin` file into the mbed folder.
 
-#### Add-On Raspberry Pi Camera Feature
+### Add-On Raspberry Pi Camera Feature
 
 1. Connect your Raspberry Pi 3 to a monitor and launch **terminal**.
-
-#### User Guide
+2. Install the correct packeges.
+    ```cmd
+    sudo apt-get install git libusb-1.0-0-dev g++ build-essential
+    sudo apt-get install qt5-default
+    sudo apt-get install qt5-qmake
+    sudo apt-get install qtbase5-dev-tools
+    sudo apt-get update
+    sudo apt update
+    ```
+3. Clone the Pixy2 source code and build the PixyMon library using the provided script.
+    ```cmd
+    git clone https://github.com/charmedlabs/pixy2
+    cd pixy2/scripts
+    ./build_pixymon_src.sh
+    ```
+4. Run the PixyMon executable with the Pixy2 connected.
+    ```cmd
+    cd ..
+    cd builds/pixymon_src
+    sudo ./Pixymon
+    ```
+    
+### User Guide
 
 
 ## Code 
