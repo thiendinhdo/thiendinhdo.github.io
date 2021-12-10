@@ -7,6 +7,7 @@
 ##### George Madathany, <gmadathany3@gatech.edu>
 ##### Thien Dinh-Do, <tdinhdo28@gatech.edu>
 
+<img src="robot.png" height="500"/>
 
 ## Table of Contents
   - [Table of Contents](#table-of-contents)
@@ -21,12 +22,15 @@
       - [Overall Hardware Schematic](#overall-hardware-schematic)
   - [Code](#code)
   - [Instructions](#instructions)
+    - [Main RC Car Build](#main-rc-car-build)
+    - [Add-On Raspberry Pi Camera Feature](#add-on-raspberry-pi-camera-feature)
+    - [User Guide](#user-guide)
   - [Demo](#demo)
 
 
 ## Introduction
 
-We intend to develop a robotic car that can be operated in two ways: **remote control** and **gesture control**. The remote control will be through an iPhone app that will be transmitting data wirelessly to the mbed on the robotic car. We will be using the control pad of the iphone app to send the following commands: `forward`, `reverse`, `right`, `left`, and `stop`. The gesture control will also be established in the same iPhone app. The iPhone app is able to take accelerometer data measurements, and we will be sending that data to the robotic car through bluetooth, and based on the change in accelerometer data, the car will move. An additional feature we will add is crash detection. The robotic car wil sound an alarm and light and LED when it gets too close to an object. An additional feature we will add is by using a raspberry pi and a raspberry pi camera, we will add OpenCV object detection as the robotic car is controlled.
+We intend to develop a robotic car that can be operated in two ways: **remote control** and **gesture control**. The remote control will be through an iPhone app that will be transmitting data wirelessly to the mbed on the robotic car. We will be using the control pad of the iphone app to send the following commands: `forward`, `reverse`, `right`, `left`, and `stop`. The gesture control will also be established in the same iPhone app. The iPhone app isA able to take accelerometer data measurements, and we will be sending that data to the robotic car through bluetooth, and based on the change in accelerometer data, the car will move. An additional feature we will add is crash detection. The robotic car wil sound an alarm and light and LED when it gets too close to an object. An additional feature we will add is by using a raspberry pi and a raspberry pi camera, we will add OpenCV object detection as the robotic car is controlled.
 
 
 ## Parts Used
@@ -330,6 +334,25 @@ int main()
 
 ## Instructions
 
+Below are instructions on how to build this project through software:
+
+#### Main RC Car Build
+
+1. Sign into the online mbed compiler and create a new blank project.
+2. [Download or copy](https://github.com/thiendinhdo/thiendinhdo.github.io/blob/main/main.cpp) the following code into the online mbed compiler.
+3. Once that `main.cpp` file is correctly written, go to the respective sites and copy/import the following libraries into the project. If need be, import a pre-existing project into your compiler, and then copy and paste the library into your working project.
+   - [PinDetect](https://os.mbed.com/users/4180_1/notebook/pushbuttons/) 
+   - [Motor](https://os.mbed.com/cookbook/Motor) 
+   - [HC_SR04_Ultrasonic_Library](https://developer.mbed.org/users/4180_1/notebook/using-the-hc-sr04-sonar-sensor/) 
+   - [mbed-rtos](https://os.mbed.com/handbook/RTOS) 
+4. Ensure that all libraryies are imported and the build and compile the project (`Cmd-D` o r `Ctrl-D`).
+5. Connect the mbed and drag and drop the downloaded `.bin` file into the mbed folder.
+
+#### Add-On Raspberry Pi Camera Feature
+
+1. Connect your Raspberry Pi 3 to a monitor and launch **terminal**.
+
+#### User Guide
 
 
 ## Code 
@@ -624,47 +647,3 @@ int main()
 Click [here](https://www.youtube.com/watch?v=IDjmc81H-Uw) for the demo video.
 
 Click [here](https://docs.google.com/presentation/d/10F8vILMPrhSeKc8hGtMochFeFNvN3BIfHhVTrCbt-NI/edit?usp=sharing) for the presenation slides.
-
-
-
-
-
-
-
-
-
-<!-- You can use the [editor on GitHub](https://github.com/thiendinhdo/thiendinhdo.github.io/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/thiendinhdo/thiendinhdo.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out. -->
