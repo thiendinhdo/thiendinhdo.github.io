@@ -17,8 +17,10 @@
       - [Motor Module](#motor-module)
       - [Speaker Module](#speaker-module)
       - [Crash Detection Module](#crash-detection-module)
+      - [Real-Time Video Footage Module](#real-time-video-footage-module)
       - [Overall Hardware Schematic](#overall-hardware-schematic)
   - [Code](#code)
+  - [Instructions](#instructions)
   - [Demo](#demo)
 
 
@@ -50,6 +52,8 @@ We intend to develop a robotic car that can be operated in two ways: **remote co
     > LEDs are one of the most simple yet versatile components that is available for embedded systems design. It can be utilized for quick testing and error checking, as well as in the case of the project, as a signal to indicate a message.
 - [Wall Adapter Power Supply - 5VDC 2A](https://www.sparkfun.com/products/15312)
 - [DC Barrel Jack Adapter](https://www.sparkfun.com/products/10811)
+- [Raspberry Pi 3 B+](https://www.sparkfun.com/products/14643)
+- [Pixy2 CMUcam5](https://www.sparkfun.com/products/14678)
 
 
 ## Assembly, Pinouts, and Implimentation
@@ -310,9 +314,23 @@ int main()
 }
 ```
 
+#### Real-Time Video Footage Module
+
+<img src="raspberrypi3.jpg" height="250"/> <img src="pixy2.jpg" height="250"/> 
+
+| Raspberry Pi 3 | Pixy2 CMUcam5 |
+| :---: | :---: |
+| USB2.0 Port | Micro USB |
+
+
 #### Overall Hardware Schematic
 
-<img src="schematic.jpg" width="600"/>
+<img src="schematic.png" width="600"/>
+
+
+## Instructions
+
+
 
 ## Code 
 
@@ -604,6 +622,8 @@ int main()
 ## Demo
 
 Click [here](https://www.youtube.com/watch?v=IDjmc81H-Uw) for the demo video.
+
+Click [here](https://docs.google.com/presentation/d/10F8vILMPrhSeKc8hGtMochFeFNvN3BIfHhVTrCbt-NI/edit?usp=sharing) for the presenation slides.
 
 
 
