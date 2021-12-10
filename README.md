@@ -372,9 +372,23 @@ Below are instructions on how to build this project through software:
     cd builds/pixymon_src
     sudo ./Pixymon
     ```
-    
+
 ### User Guide
 
+1. Flip the switch near the front of the car behind the sonar sensor to supply power to on-board modules.
+2. Open the `Adafruit Bluefruit Connect App` on a mobile device and connect to `Adafruit Bluefruit LE` in `UART` mode.
+3. From here there are two options for control: Remote Mode and Gesture Mode. Upon start, the mbed will set Remote Mode as the default mode and the Yellow LED at the rear of the car will indicate whether or not Gesture Mode is on. For example, if unlit, Remote Mode is on and Gesture Mode is off and if lit, Remote mode is off and Gesture Mode is on.
+   1. Remote Mode: Click `Control Pad` and four arrows will appear. When pressed, the car will move in that direction until the arrrow is released. 
+      - **Forward** = `Up` 
+      - **Reverse** = `Down`
+      - **Left** = `Left`
+      - **Right** = `Right`
+   2. Gesture Mode: Click `Accelerometer`. When tilted in the respective direction, the car will move in that direction until the phone is returned to level.
+      - **Forward** = *tilt **forward** about the pitch axis*
+      - **Reverse** = *tilt **backwards** about the pitch axis*
+      - **Left** = *tilt **left** about the roll axis*
+      - **Right** = *tilt **right** about the roll axis*
+4. When approaching an obstacle, the crash detection module will sound a low tone when within 20 cm of an obstacle and the `warningLED` (Orange) will light. Further travel closer to the obstacle will sound a higher tone out of the speaker and light the `alarmLED` (Red). Effects will wear off if the robot is to reverse away from the object.
 
 ## Code 
 
